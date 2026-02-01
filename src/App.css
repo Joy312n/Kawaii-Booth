@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Quicksand:wght@500;700&display=swap');
+
+:root {
+  --bg-pink: #FFF0F5;
+  --soft-white: #FFFFFF;
+  --pastel-mint: #B5EAD7;
+  --pastel-coral: #FFB7B2;
+  --pastel-purple: #E2F0CB;
+  --text-grey: #6d6d6d;
+}
+
+body {
+  background-color: var(--bg-pink);
+  font-family: 'Quicksand', sans-serif;
+  color: var(--text-grey);
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Reusable Cute Container */
+.card-container {
+  background: white;
+  border-radius: 25px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(255, 183, 178, 0.3);
+  border: 4px solid white;
+  max-width: 900px;
+  width: 95%;
+  margin: 20px;
+  text-align: center;
+}
+
+/* Cute Buttons */
+.kawaii-btn {
+  background: var(--pastel-coral);
+  border: none;
+  padding: 12px 25px;
+  border-radius: 50px;
+  font-family: 'Fredoka', sans-serif;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+  margin: 10px;
+}
+.kawaii-btn:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+.kawaii-btn.mint { background: var(--pastel-mint); }
+
+/* Template Selection Cards */
+.template-card {
+  background: white;
+  border: none;
+  width: 220px;
+  height: 280px;
+  border-radius: 25px;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 10px 20px rgba(230, 230, 230, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid transparent;
+}
+
+.template-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(255, 183, 178, 0.4);
+  border-color: #FFB7B2;
+}
+
+/* Text styles inside card */
+.card-info h3 {
+  font-family: 'Fredoka', sans-serif;
+  color: #555;
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.card-info span {
+  font-family: 'Quicksand', sans-serif;
+  color: #aaa;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
