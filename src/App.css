@@ -17,6 +17,7 @@ body {
   display: flex;
   justify-content: center;
   min-height: 100vh;
+  overflow-x: hidden; /* ⛔️ PREVENT HORIZONTAL SCROLLING GLOBALLY */
 }
 
 /* Reusable Cute Container */
@@ -26,10 +27,11 @@ body {
   padding: 20px;
   box-shadow: 0 10px 25px rgba(255, 183, 178, 0.3);
   border: 4px solid white;
+  width: 95%; /* Responsive width */
   max-width: 900px;
-  width: 95%;
-  margin: 20px;
+  margin: 20px auto;
   text-align: center;
+  box-sizing: border-box; /* Includes padding in width calculation */
 }
 
 /* Cute Buttons */
@@ -44,7 +46,7 @@ body {
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
   box-shadow: 0 4px 0 rgba(0,0,0,0.1);
-  margin: 10px;
+  margin: 5px; /* Reduced margin for better wrapping */
 }
 .kawaii-btn:active {
   transform: translateY(4px);
@@ -77,7 +79,6 @@ body {
   border-color: #FFB7B2;
 }
 
-/* Text styles inside card */
 .card-info h3 {
   font-family: 'Fredoka', sans-serif;
   color: #555;
@@ -91,3 +92,49 @@ body {
   font-size: 0.9rem;
   font-weight: bold;
 }
+
+/* --- 📱 MOBILE OPTIMIZATIONS --- */
+@media (max-width: 600px) {
+  .card-container {
+    padding: 15px 10px;
+    width: 98%; /* Slightly wider on mobile */
+    margin: 10px auto;
+    border-radius: 15px;
+  }
+
+  .kawaii-btn {
+    font-size: 1rem;
+    padding: 10px 15px;
+    /* Don't force width 100%, let flexbox handle it, makes controls cleaner */
+  }
+  
+  h1 {
+    font-size: 1.8rem !important;
+  }
+}
+
+/* Scrollbar – Chrome, Edge, Safari */
+.emoji-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.emoji-scroll::-webkit-scrollbar-track {
+  background: var(--bg-pink);
+  border-radius: 10px;
+}
+
+.emoji-scroll::-webkit-scrollbar-thumb {
+  background: var(--pastel-coral);
+  border-radius: 10px;
+}
+
+.emoji-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--pastel-mint);
+}
+
+/* Firefox */
+.emoji-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--pastel-coral) var(--bg-pink);
+}
+

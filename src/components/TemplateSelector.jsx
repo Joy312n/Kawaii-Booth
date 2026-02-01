@@ -36,14 +36,14 @@ export const TEMPLATES = [
 export default function TemplateSelector({ onSelect }) {
   return (
     <div style={{
-      textAlign: 'center', padding: '40px 20px', maxWidth: '1200px', margin: '0 auto'
+      textAlign: 'center', padding: '40px 10px', maxWidth: '1200px', margin: '0 auto'
     }}>
-      <h1 style={{fontFamily: 'Fredoka, sans-serif', color: '#FFB7B2', fontSize: '2.5rem', marginBottom: '10px'}}>
+      <h1 style={{fontFamily: 'Fredoka, sans-serif', color: '#FFB7B2', fontSize: 'clamp(2rem, 5vw, 2.5rem)', marginBottom: '10px'}}>
         ✨ Pick Your Layout! ✨
       </h1>
       <p style={{color: '#888', marginBottom: '40px'}}>Choose how you want your photos to look</p>
       
-      <div style={{display: 'flex', flexWrap: 'wrap', gap: '30px', justifyContent: 'center'}}>
+      <div style={{display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center'}}>
         {TEMPLATES.map((t) => (
           <button 
             key={t.id} 

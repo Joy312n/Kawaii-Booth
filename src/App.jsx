@@ -24,7 +24,7 @@ function App() {
           }} />
         )}
 
-     
+
         {phase === 'CAPTURE' && (
           <CaptureScreen
             template={selectedTemplate}
@@ -33,8 +33,10 @@ function App() {
               setSelectedFilter(filter); // Store it
               setPhase('EDIT');
             }}
+            onBack={() => setPhase('TEMPLATE')}
           />
         )}
+
 
         {phase === 'EDIT' && (
           <EditorScreen
