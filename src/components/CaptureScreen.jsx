@@ -251,12 +251,12 @@ export default function CaptureScreen({ template = { shots: 4 }, onComplete, onB
         <Webcam
           audio={false}
           ref={webcamRef}
-          screenshotFormat="image/jpeg"
+          screenshotFormat="image/png"
           forceScreenshotSourceSize={true}
           videoConstraints={{
             facingMode: "user",
-            width: { ideal: 1280 },
-            height: { ideal: 720 }
+            width: { ideal: 1920 },
+            height: { ideal: 1080 }
           }}
           style={{
             width: '100%',

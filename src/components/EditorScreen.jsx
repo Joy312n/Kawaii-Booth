@@ -231,17 +231,69 @@ const THEMES = [
   },
 ];
 
+// --- 🪄 5. FILTER UTILITIES ---
+const getKonvaFilters = (filterName) => {
+  // Map CSS filter concepts to Konva Filters
+  switch (filterName) {
+    case 'bw':
+      return { filters: [Konva.Filters.Grayscale] };
+    case 'sepia':
+      return { filters: [Konva.Filters.Sepia] };
+    case 'vintage':
+      // Sepia + slight contrast + lower saturation
+      return { 
+        filters: [Konva.Filters.Sepia, Konva.Filters.Contrast, Konva.Filters.HSV],
+        contrast: 10,
+        saturation: -0.3
+      };
+    case 'soft':
+      // Brighten + lower contrast + lower saturation
+      return {
+        filters: [Konva.Filters.Brighten, Konva.Filters.Contrast, Konva.Filters.HSV],
+        brightness: 0.1,
+        contrast: -10,
+        saturation: -0.2
+      };
+    case 'noir':
+      // Grayscale + High contrast + Darker
+      return {
+        filters: [Konva.Filters.Grayscale, Konva.Filters.Contrast, Konva.Filters.Brighten],
+        contrast: 30,
+        brightness: -0.1
+      };
+    case 'vivid':
+      // High Saturation + Contrast
+      return {
+        filters: [Konva.Filters.Contrast, Konva.Filters.HSV],
+        contrast: 10,
+        saturation: 0.5
+      };
+    case 'ocean':
+      // Hue rotate (Cyan/Blue shift) + Saturation
+      return {
+        filters: [Konva.Filters.HSV],
+        hue: 180, 
+        saturation: 0.2
+      };
+    case 'normal':
+    default:
+      return { filters: [] };
+  }
+};
+
+
 // --- SMART PHOTO COMPONENT ---
-const SmartPhoto = ({ src, x, y, width, height, theme }) => {
+const SmartPhoto = ({ src, x, y, width, height, theme, filterType }) => {
   const [image] = useImage(src, 'Anonymous');
   const imageRef = useRef();
 
+  // ✨ Apply Filters when image or filterType changes
   useEffect(() => {
     if (image && imageRef.current) {
-      imageRef.current.cache();
+      imageRef.current.cache({ pixelRatio: 3 }); // Essential for Konva filters
       imageRef.current.getLayer().batchDraw();
     }
-  }, [image]);
+  }, [image, filterType]); // Add filterType dependency
 
   const cropConfig = useMemo(() => {
     if (!image) return { x: 0, y: 0, width: 0, height: 0 };
@@ -265,6 +317,9 @@ const SmartPhoto = ({ src, x, y, width, height, theme }) => {
 
   if (!image) return null;
 
+  // Get filter settings
+  const filterProps = getKonvaFilters(filterType);
+
   return (
     <Group x={x} y={y}>
       <Group clipFunc={theme.clipFunc ? (ctx) => theme.clipFunc(ctx, width, height) : undefined}>
@@ -273,6 +328,8 @@ const SmartPhoto = ({ src, x, y, width, height, theme }) => {
           image={image}
           x={width} y={0} scaleX={-1} width={width} height={height}
           crop={cropConfig}
+          // ✨ Spread filter props here (filters array, contrast value, etc.)
+          {...filterProps}
         />
       </Group>
       {theme.renderFrame && theme.renderFrame(width, height)}
@@ -431,9 +488,9 @@ export default function EditorScreen({ photos, template, filter, onRestart }) {
         const mime = downloadFormat === 'png' ? 'image/png' : 'image/jpeg';
         const ext = downloadFormat;
         const uri = stageRef.current.toDataURL({
-          pixelRatio: 2,
+          pixelRatio: 3,
           mimeType: mime,
-          quality: 0.95
+          quality: 1
         });
 
         // 3. Restore visual scale for the UI
@@ -556,7 +613,8 @@ export default function EditorScreen({ photos, template, filter, onRestart }) {
             {photos.map((src, i) => {
               const colIndex = i % template.cols; const rowIndex = Math.floor(i / template.cols);
               const x = margin + (colIndex * (slotW + padding)); const y = margin + (rowIndex * (slotH + padding));
-              return (<SmartPhoto key={i} src={src} x={x} y={y} width={slotW} height={slotH} theme={selectedTheme} />);
+              // ✨ PASS THE FILTER TO SMART PHOTO
+              return (<SmartPhoto key={i} src={src} x={x} y={y} width={slotW} height={slotH} theme={selectedTheme} filterType={filter} />);
             })}
 
             <Text
